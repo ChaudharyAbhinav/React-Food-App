@@ -1,8 +1,8 @@
 import RestaurantCard from "./RestaurantCard";
 import { Restaurantlist } from "../constants";
 import { useEffect, useState } from 'react';
-//import { Swiggy_API_Cdn } from "../constants";
-
+import { Swiggy_API_Cdn } from "../constants";
+import Shimmer from "./Shimmer";
 function filterData(inputtext, restaurants) {
   const filterData = restaurants.filter((restaurant) =>
     restaurant?.data?.name.toLowerCase().includes(inputtext.toLowerCase())
@@ -12,78 +12,115 @@ function filterData(inputtext, restaurants) {
 
 
  const Body =()=>{
-  
+
     const [inputtext , setInputtext] = useState("");
-    const [restautants,setRestaurants] =useState(Restaurantlist);
-     //const [allRestaurants, setAllRestaurants] = useState([]);
+    const [filteredRestautants,setFilteredRestaurants] =useState(Restaurantlist);
+     const [allRestaurants, setAllRestaurants] = useState([]);
   //const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-  //const [errorMessage, setErrorMessage] = useState("");
-   
-  // useEffect(()=>{
-  //   getRestaurants();
-  // },[]);
-  
-//   async function getRestaurants(){
-//     try{
-//         const data = await fetch(Swiggy_API_Cdn);
-//         const json = await data.json();
-//
-//         setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-//         setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-//     } catch(error) {
-//         console.log(error);
-//     }
-//   }
-//
-// const searchData = (searchText, restaurants) => {
-//     if (searchText !== "") {
-//       const data = filterData(searchText, restaurants);
-//       setFilteredRestaurants(data);
-//       setErrorMessage("");
-//       if (data.length === 0) {
-//         setErrorMessage("No matches restaurant found");
-//       }
-//     } else {
-//       setErrorMessage("");
-//       setFilteredRestaurants(restaurants);
-//     }
-//   };
-//
-//
-//     // if allRestaurants is empty don't render restaurants cards
-//   if (!allRestaurants) return null;
-//
+  const [errorMessage, setErrorMessage] = useState("");
+
+
+  //to render restaurant for first time
+  useEffect(()=>{
+    getRestaurants();
+  },[]);
+
+
+  //async function to fetch swiggy API data
+  async function getRestaurants(){
+    //try catch to handle error
+    try{
+        const data = await fetch(Swiggy_API_Cdn);
+        const json = await data.json();
+
+         // initialize checkJsonData() function to check Swiggy Restaurant data
+      async function checkJsonData(jsonData) {
+        for (let i = 0; i < jsonData?.data?.cards.length; i++) {
+
+          // initialize checkData for Swiggy Restaurant data
+          let checkData = json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+
+          // if checkData is not undefined then return it
+          if (checkData !== undefined) {
+            return checkData;
+          }
+        }
+      }
+
+
+
+      const restaurantData = await checkJsonData(json);
+
+      setAllRestaurants(restaurantData);
+      setFilteredRestaurants(restaurantData);
+    } catch(error) {
+        console.log(error);
+    }
+  }
+
+
+
+const searchData = (searchText, restaurants) => {
+    if (searchText !== "") {
+      const filteredData = filterData(searchText, restaurants);
+      setFilteredRestaurants(filterData);
+      setErrorMessage("");
+      if (filteredData?.length === 0) {
+        setErrorMessage("No matches restaurant found");
+      }
+    } else {
+      setErrorMessage("");
+      setFilteredRestaurants(restaurants);
+    }
+  };
+
+
+    // if allRestaurants is empty don't render restaurants cards
+  if (!allRestaurants) return null;
+
 
   return(
         <>
     <div className="search-container">
-        <input 
-        type="text" 
+        <input
+        type="text"
+        className="search-input"
+        placeholder="search a restaurant you want"
         value={inputtext}
         onChange={(e)=>setInputtext(e.target.value)
-        }>             
+        }>
         </input>
-        <button 
-        className="submit-btn" 
+        <button
+        className="submit-btn"
         onClick={()=>{
-          const data=filterData(inputtext,restautants);
-              searchData(data);
-
-            }
-        }>search</button>
+           searchData(inputtext,allRestaurants);
+            }}>
+            search
+            </button>
     </div>
-    <div className="restaurant-list">
+     {errorMessage && <div className="error-container">{errorMessage}</div>}
 
-        {restautants.map((restaurant)=>{
-            return( <RestaurantCard key={restaurant.data.id} {...restaurant.data}/>
-            );
-        })}
+    {
+      allRestaurants?.length===0 ? (
+      <Shimmer/>
+  ):(
+    <div className="restaurant-list">{
+      filteredRestautants.map((restaurant)=>{
+        return (
+          <RestaurantCard key={
+            restaurant?.info?.id
+          }
+          {
+            ...restaurant?.info
+          } />
+        );
+      })}
     </div>
+  )}
+  </>
+);
 
-        </>
-)
-
-}
+};
 
 export default Body;
 

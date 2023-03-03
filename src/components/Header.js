@@ -4,6 +4,7 @@ import FoodLogo from "../Assets/logo.jpg"
 const Title = ()=>(
     <a href="/">
         <img className="logo" alt="Logo" src={FoodLogo}/>
+        title="AAI chi Krupa"
     </a>
 );
 
