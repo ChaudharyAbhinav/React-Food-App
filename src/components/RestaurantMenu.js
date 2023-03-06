@@ -7,7 +7,6 @@ import {
   cloudinaryImageId,
   MENU_ITEM_TYPE_KEY,
   IMG_CDN,
-  sla,
   RESTAURANT_TYPE_KEY,
 } from "../constants";
 import {MenuShimmer} from "./Shimmer";
@@ -77,7 +76,7 @@ const RestaurantMenu = () => {
               <span>{restaurant?.avgRating}</span>
             </div>
             <div className="restaurant-rating-slash">|</div>
-            <div>{sla?.lastMileTravelString?? '2.0 km'}</div>
+            <div>{restaurant?.lastMileTravelString?? '2.0 km'}</div>
             <div className="restaurant-rating-slash">|</div>
             <div>{restaurant?.costForTwoMessage}</div>
           </div>
