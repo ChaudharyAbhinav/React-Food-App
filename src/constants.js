@@ -14,7 +14,7 @@ export const shimmer_menu_card_unit = 4;
 export const MENU_ITEM_TYPE_KEY = "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory";
 export const RESTAURANT_TYPE_KEY = "type.googleapis.com/swiggy.presentation.food.v2.Restaurant";
 
-export const shimmer_card_unit = 20
+// export const shimmer_card_unit = 30
 
 //for stagtic rendridg
 // export const Restaurantlist = [
