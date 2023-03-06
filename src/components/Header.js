@@ -1,11 +1,12 @@
-import { useState } from "react";
-import FoodLogo from "../Assets/logo.jpg"
+import { useState,useEffect } from "react";
+import FoodLogo from "../Assets/swiggylogo.png"
+import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
+
 
 const Title = ()=>(
-    <a href="/">
-        <img className="logo" alt="Logo" src={FoodLogo}/>
-        title="AAI chi Krupa"
-    </a>
+    <Link to="/"><img className="logo" alt="TastyTracks Logo" src={FoodLogo} title="TastyTracks"/></Link>
+
 );
 
 
@@ -13,17 +14,28 @@ const Title = ()=>(
 const Header = ()=>{
 
     const[isLoggedIn , setLoggedIn]= useState(true);
+    const navigate = useNavigate();
+
 
 return (
     <div className="Header">
         <Title/>
+
+
     <div className= "nav-items">
         <ul>
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
-            <li>Cart</li>
-            <li>
+             <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+
+          <li>
+            <Link to="/contact">Contact</Link>
+          </li>
+
+          <li style={{color:"white"}}>
                 {isLoggedIn ? (
                     <button
                         className="logout-btn"

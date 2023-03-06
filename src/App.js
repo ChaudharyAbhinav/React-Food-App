@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Body from "./components/Body";
 import Header from "./components/Header";
-import Footer from "./components/Footer"
 import About from "./components/About";
 import Errormessage from "./components/Errormessage";
 import Contact from "./components/Contact";
@@ -16,7 +15,6 @@ const Applayout= ()=>{
     <Header/>
     <Outlet/>
 
-    <Footer/>
     </React.Fragment>);
 }
 
@@ -25,7 +23,8 @@ const appRouter = createBrowserRouter([
   {
     path: "/", // show path for routing
     element: <Applayout />, // show component for particular path
-    errorElement: <Errormessage />, // show error component for path is different
+    errorElement: <Errormessage />,
+    // show error component for path is different
     children: [
       // show children component for routing
       {

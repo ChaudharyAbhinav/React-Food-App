@@ -5,7 +5,7 @@ const About = () => {
     <div className="about-container">
       <div className="about-left">
         <h1>
-          Welcome to <br /> The world of <br /> <span>Tasty & Fresh Food</span>
+          Welcome to The world of <br /> <span>Tasty & Fresh Food</span>
         </h1>
         <h4>
           "Elevate your senses with each bite, <span>deliciousness awaits!</span>"

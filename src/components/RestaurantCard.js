@@ -12,12 +12,12 @@ const RestaurantCard = ({
 })=>{
     return(
         <div className="card">
-            <img src={             
+            <img src={
           IMG_CDN+ cloudinaryImageId
             }/>
-        <h2>{name}</h2>
-        <h3>{areaName}</h3>
-        <h4>{cuisines.join(", ")}</h4>
+        <h2 style={{fontSize :'15px' }}>{name}</h2>
+        <h3 style={{fontSize:'15px'}}>{areaName}</h3>
+        <h4 style={{ fontSize: '12px', fontWeight: 'lighter' }}>{cuisines.join(", ")}</h4>
         <span>
            <h4
           style={

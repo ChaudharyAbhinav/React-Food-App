@@ -4,7 +4,10 @@ import {
   swiggy_menu_api_URL,
   IMG_CDN_URL,
   ITEM_IMG_CDN_URL,
+  cloudinaryImageId,
   MENU_ITEM_TYPE_KEY,
+  IMG_CDN,
+  sla,
   RESTAURANT_TYPE_KEY,
 } from "../constants";
 import {MenuShimmer} from "./Shimmer";
@@ -55,7 +58,8 @@ const RestaurantMenu = () => {
       <div className="restaurant-summary">
         <img
           className="restaurant-img"
-          src={IMG_CDN_URL + restaurant?.cloudinaryImageId}
+          // src={IMG_CDN_URL + restaurant?.cloudinaryImageId}
+          src={IMG_CDN + restaurant?.cloudinaryImageId}
           alt={restaurant?.name}
         />
         <div className="restaurant-summary-details">
@@ -73,7 +77,7 @@ const RestaurantMenu = () => {
               <span>{restaurant?.avgRating}</span>
             </div>
             <div className="restaurant-rating-slash">|</div>
-            <div>{restaurant?.sla?.slaString}</div>
+            <div>{sla?.lastMileTravelString?? '2.0 km'}</div>
             <div className="restaurant-rating-slash">|</div>
             <div>{restaurant?.costForTwoMessage}</div>
           </div>

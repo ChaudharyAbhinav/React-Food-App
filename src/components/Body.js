@@ -3,70 +3,34 @@ import { Restaurantlist } from "../constants";
 import { useEffect, useState } from 'react';
 import { Swiggy_API_Cdn } from "../constants";
 import Shimmer from "./Shimmer";
-function filterData(inputtext, restaurants) {
-  const filterData = restaurants.filter((restaurant) =>
-    restaurant?.data?.name.toLowerCase().includes(inputtext.toLowerCase())
+import {Link} from "react-router-dom";
+import "./css/Search.css";
+import useResData from "./useResData";
+function filterData(searchText, restaurants) {
+  const resfilterData = restaurants.filter((restaurant) =>
+    restaurant?.info?.name.toLowerCase().includes(searchText.toLowerCase())
   );
-  return filterData;
+  return resfilterData;
 }
 
-
- const Body =()=>{
-
-    const [inputtext , setInputtext] = useState("");
-    const [filteredRestautants,setFilteredRestaurants] =useState(Restaurantlist);
-     const [allRestaurants, setAllRestaurants] = useState([]);
-  //const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+const Body = () => {
+  // useState: To create a state variable, searchText, allRestaurants and filteredRestaurants is local state variable
+  const [searchText, setSearchText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [allRestaurants, FilterRes] = useResData(Swiggy_API_Cdn);
+  const [filteredRestaurants, setFilteredRestaurants] = useState(null);
 
 
-  //to render restaurant for first time
-  useEffect(()=>{
-    getRestaurants();
-  },[]);
-
-
-  //async function to fetch swiggy API data
-  async function getRestaurants(){
-    //try catch to handle error
-    try{
-        const data = await fetch(Swiggy_API_Cdn);
-        const json = await data.json();
-
-         // initialize checkJsonData() function to check Swiggy Restaurant data
-      async function checkJsonData(jsonData) {
-        for (let i = 0; i < jsonData?.data?.cards.length; i++) {
-
-          // initialize checkData for Swiggy Restaurant data
-          let checkData = json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-
-          // if checkData is not undefined then return it
-          if (checkData !== undefined) {
-            return checkData;
-          }
-        }
-      }
-
-
-
-      const restaurantData = await checkJsonData(json);
-
-      setAllRestaurants(restaurantData);
-      setFilteredRestaurants(restaurantData);
-    } catch(error) {
-        console.log(error);
-    }
-  }
-
-
-
-const searchData = (searchText, restaurants) => {
+  // use searchData function and set condition if data is empty show error message
+  const searchData = (searchText, restaurants) => {
     if (searchText !== "") {
       const filteredData = filterData(searchText, restaurants);
-      setFilteredRestaurants(filterData);
+      setFilteredRestaurants(filteredData);
       setErrorMessage("");
       if (filteredData?.length === 0) {
-        setErrorMessage("No matches restaurant found");
+        setErrorMessage(
+          `Sorry, we couldn't find any results for "${searchText}"`
+        );
       }
     } else {
       setErrorMessage("");
@@ -74,53 +38,59 @@ const searchData = (searchText, restaurants) => {
     }
   };
 
-
-    // if allRestaurants is empty don't render restaurants cards
+  // if allRestaurants are empty don't render restaurants cards
   if (!allRestaurants) return null;
 
-
-  return(
-        <>
-    <div className="search-container">
+  return (
+    <div className="body-container">
+      <div className="search-container">
         <input
-        type="text"
-        className="search-input"
-        placeholder="search a restaurant you want"
-        value={inputtext}
-        onChange={(e)=>setInputtext(e.target.value)
-        }>
-        </input>
+          type="text"
+          className="search-input"
+          placeholder="Search a restaurant you want..."
+          value={searchText}
+          // update the state variable searchText when we typing in input box
+          onChange={(e) => {
+            setSearchText(e.target.value);
+            // when user will enter the data, it automatically called searchData function so it work same as when you click on Search button
+            searchData(e.target.value, allRestaurants);
+          }}
+        />
         <button
-        className="submit-btn"
-        onClick={()=>{
-           searchData(inputtext,allRestaurants);
-            }}>
-            search
-            </button>
-    </div>
-     {errorMessage && <div className="error-container">{errorMessage}</div>}
+          className="search-btn"
+          onClick={() => {
+            // user click on button searchData function is called
+            searchData(searchText, allRestaurants);
+          }}
+        >
+          Search
+        </button>
+      </div>
+      {errorMessage && <div className="error-container">{errorMessage}</div>}
 
-    {
-      allRestaurants?.length===0 ? (
-      <Shimmer/>
-  ):(
-    <div className="restaurant-list">{
-      filteredRestautants.map((restaurant)=>{
-        return (
-          <RestaurantCard key={
-            restaurant?.info?.id
-          }
-          {
-            ...restaurant?.info
-          } />
-        );
-      })}
+      {/* if restaurants data are fetched then display restaurants cards otherwise display Shimmer UI */}
+      {allRestaurants?.length === 0 && FilterRes?.length === 0 ? (
+        <Shimmer />
+      ) : (
+        <div className="restaurant-list">
+          {/* We are mapping restaurants array and passing JSON array data to RestaurantCard component as props with unique key as restaurant.data.id */}
+          {(filteredRestaurants === null ? FilterRes : filteredRestaurants).map(
+            (restaurant) => {
+              return (
+                <Link
+                  to={"/restaurant/" + restaurant?.info?.id}
+                  key={restaurant?.info?.id}
+                >
+                  {/* if we click on any restaurant card it will redirect to that restaurant menu page */}
+                  <RestaurantCard {...restaurant?.info} />
+                </Link>
+              );
+            }
+          )}
+        </div>
+      )}
     </div>
-  )}
-  </>
-);
-
+  );
 };
 
 export default Body;
-
