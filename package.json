@@ -1,0 +1,19 @@
+{
+  "name": "react-food-app",
+  "version": "1.0.0",
+  "description": "Food App",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChaudharyAbhinav/React-Food-App.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChaudharyAbhinav/React-Food-App/issues"
+  },
+  "homepage": "https://github.com/ChaudharyAbhinav/React-Food-App#readme"
+}
