@@ -35,8 +35,24 @@ const heading = React.createElement(
     {
         id:"title"
     },
+    //"Hi from Abhinav"
+    [React.createElement(
+    "h1",
+    {
+        id:"title"
+    },
     "Hi from Abhinav"
 
+),React.createElement(
+    "h1",
+    {
+        id:"title"
+    },
+    "Hi from Abhinav"
+
+)
+
+]
 );
 
 
