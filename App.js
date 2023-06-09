@@ -1,6 +1,6 @@
 // ## Namaste React Course by Akshay Saini
 // # Chapter 02 - Igniting our App
-
+//Parcel is a beast
 /*
  *** Parcel Feature ***
  * Created A Server
@@ -19,7 +19,7 @@
  * port Number
  * Consistent Hashing Algorithm
  * Zero Config
- * Tree shaking
+ * Tree shaking - removing unwanted code 
  *
  *
  * Transitive Dependencies
