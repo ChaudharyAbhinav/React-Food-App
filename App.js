@@ -20,20 +20,21 @@ const HeadComponent2 = ()=>{
 
 const HeadComponent3=()=>(
     <div>
+        {/* Component Composition */}
+        {<HeadComponent2></HeadComponent2>}
         <h1>I am HeadComponent3</h1>
     </div> 
 );
 
 // const data = api.getData();
+// suppose we are getting data from an api and hacker attacks our data 
+// ie. Cross site scripting attack 
+
+// still jsx sanitizes the data so we are good.
 const HeadComponent4 = function(){
     return(
     <div>
-            {/* For React Element */}
-        {Intro} 
-        {/* For React Componenet */}
-        <HeadComponent2/> 
-        {/* or for react component we can write */}
-        {HeadComponent3()}
+        {/* {data} */}
         <h1>Abhinav asdad</h1>
     </div>
     );
@@ -53,4 +54,4 @@ const Display = ()=>{
 
 const root= ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(<Display/>);
+root.render(<HeadComponent2/>);
