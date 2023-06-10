@@ -1,57 +1,41 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
-
-const Intro = (
-    <h1> Hi i am a react element</h1>
+import FoodLogo from "./Assets/logo.jpg"
+const Title = ()=>(
+    <img className="logo" alt="Logo" src={FoodLogo}/>
 );
 
-const HeadComponent = ()=>{
-    return <div><h1>I am HeadComponent</h1></div>;
-};
-
-const HeadComponent2 = ()=>{
-    return (
-    <div>
-        <h1>I am HeadComponent2</h1>
+const Header = ()=>{
+return (
+    <div className="Header">
+        <Title/>
+    <div className= "nav-items">
+        <ul>
+            <li>Home</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>Cart</li>
+        </ul>
     </div>
-);
+    </div>);
 };
 
-const HeadComponent3=()=>(
-    <div>
-        {/* Component Composition */}
-        {<HeadComponent2></HeadComponent2>}
-        <h1>I am HeadComponent3</h1>
-    </div> 
-);
-
-// const data = api.getData();
-// suppose we are getting data from an api and hacker attacks our data 
-// ie. Cross site scripting attack 
-
-// still jsx sanitizes the data so we are good.
-const HeadComponent4 = function(){
-    return(
-    <div>
-        {/* {data} */}
-        <h1>Abhinav asdad</h1>
-    </div>
-    );
+const Body =function(){
+   return ( <h2>Body</h2>);
 };
 
-
-var xyz = 10;
-const Display = ()=>{
-    return (
-        <>
-        {/* YOu can write any javascript code within {}  */}
-        {1 + 2}
-        {xyz}
-        </>
-    );
+const Footer = ()=>{
+    return(<h3>Footer</h3>);
 };
+
+const Applayout= ()=>{
+    return(<>
+    <Header/>
+    <Body/>
+    <Footer/>
+    </>);
+}
 
 const root= ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(<HeadComponent2/>);
+root.render(<Applayout/>);
