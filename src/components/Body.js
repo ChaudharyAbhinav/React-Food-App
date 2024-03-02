@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Swiggy_API_Cdn } from "../constants";
 import Shimmer from "./Shimmer";
 import {Link} from "react-router-dom";
-import "../Assets/Styles.css"
+
 import useResData from "./useResData";
 function filterData(searchText, restaurants) {
   const resfilterData = restaurants.filter((restaurant) =>
